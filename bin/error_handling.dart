@@ -37,7 +37,7 @@ class UserWhoForgotPassword{
   });
   final String email;
 }
-class  ChangePasswordCredentials{
+class ChangePasswordCredentials{
   ChangePasswordCredentials({
     required this.email,
     required this.newPassword,
@@ -46,6 +46,14 @@ class  ChangePasswordCredentials{
   final String email;
   final String password;
   final String newPassword;
+}
+class UserThatWantsToDeleteTheAccount{
+  UserThatWantsToDeleteTheAccount({
+    required this.email,
+    required this.password,
+  });
+  final String email;
+  final String password;
 }
 //-------------------------------------------------------------------------------------------------
 //Functions
@@ -128,6 +136,22 @@ Future<ChangePasswordCredentials?> validateChangePasswordCredentials(HttpRequest
       return null;
     }
   }catch(err){
+    return null;
+  }
+}
+Future<UserThatWantsToDeleteTheAccount?> validateDeleteTheAccountCredentials(HttpRequest request)async{
+  try{
+    String requestBody = await  utf8.decodeStream(request.asBroadcastStream());
+    Map<String,dynamic> parsedJSON = jsonDecode(requestBody);
+    if(parsedJSON.length == 2){
+      return UserThatWantsToDeleteTheAccount(
+        email: parsedJSON["email"], 
+        password: parsedJSON["password"],
+      );
+    }else{
+      return null;
+    }
+  }catch(error){
     return null;
   }
 }

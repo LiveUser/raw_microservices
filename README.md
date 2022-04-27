@@ -11,10 +11,6 @@
 -----------------------------------------------------------------------
 Simple authentication services. 
 
-## Usage
-
-Follow the instructions on [this website](https://pub.dev/packages/dbx_platform) and [this website](https://pub.dev/packages/mailjet) to get the required access tokens for both Mailjet and Dropbox. Open the variables folder on this package and replace the empty values on that file with the access tokens. This package sends emails using Mailjet and uses Dropbox as database. Also this project will be hosted on REPL.it(repl.com) because its the only place that I know of where I can host a dart server and has a free plan and simple pricing structure. 
-
 ## How to run the package locally
 
 While inside your work/project directory run the command below(requires [installing dart](https://dart.dev/))
@@ -214,6 +210,42 @@ All server responses are type string
 - is_not_registered - you must Register account first(before running this function)
 - invalid_credentials - username and password don't match
 - successfully_changed_password
+
+-----------------------------------------------------------------------
+
+## Delete Account
+
+### URL path
+
+~~~
+/api/autista/deleteAccount
+~~~
+
+### Method
+
+POST
+
+### Header
+
+- Content-Type = application/json
+- Bearer ${admin_access_token_here}
+
+### Request Parameters(post request body)
+
+- email
+- password
+
+### Server Responses
+
+All server responses are type string
+
+- wrong_api_path - no API function corresponds to the URL path
+- wrong_content_type - must be in JSON format and contain the header Content-Type = application/json
+- access_denied - invalid access token
+- wrong_method - method must be a POST request
+- incorrect_parameters - incorrect parameters sent on the body or the data is not in JSON file format
+- is_not_registered - no account is registered under the given email
+- successfully_deleted - account got deleted successfully
 
 -----------------------------------------------------------------------
 # Contribute/donate by tapping on the Pay Pal logo/image

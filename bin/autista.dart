@@ -79,6 +79,19 @@ Future<String> Autista({
     }else{
       return "wrong_method";
     }
+  }else if(path == "/api/autista/deleteAccount"){
+    if(request.method == "POST"){
+      UserThatWantsToDeleteTheAccount? userThatWantsToDeleteTheAccount = await validateDeleteTheAccountCredentials(request);
+      if(userThatWantsToDeleteTheAccount == null){
+        return "incorrect_parameters";
+      }else{
+        return await deleteAccount(
+          userThatWantsToDeleteTheAccount: userThatWantsToDeleteTheAccount,
+        );
+      }
+    }else{
+      return "wrong_method";
+    }
   }else{
     return "wrong_api_path";
   }
@@ -237,6 +250,18 @@ Future<String> changePassword(ChangePasswordCredentials changePasswordCredential
     }else{
       return "invalid_credentials";
     }
+  }else{
+    return "is_not_registered";
+  }
+}
+//Delete account function
+Future<String> deleteAccount({
+  required UserThatWantsToDeleteTheAccount userThatWantsToDeleteTheAccount,
+})async{
+  DBX_File account = DBX_File(path: "/autista/accounts/${userThatWantsToDeleteTheAccount.email}.json");
+  if(await dbx.itemExists(dbx_item: account)){
+    await dbx.deleteItem(dbx_item: account);
+    return "successfully_deleted";
   }else{
     return "is_not_registered";
   }
